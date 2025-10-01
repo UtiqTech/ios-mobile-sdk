@@ -13,8 +13,7 @@ on:
 jobs:
   release:
     if: contains(github.event.pull_request.labels.*.name, 'bump-ios-sdk')
-    runs-on: self-hosted
-    # runs-on: macOS-latest
+    runs-on: macOS-latest
     steps:
     - name: Auto-merge bump PRs
       run: |
