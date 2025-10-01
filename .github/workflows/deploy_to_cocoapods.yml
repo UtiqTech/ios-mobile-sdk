@@ -15,6 +15,9 @@ jobs:
     if: contains(github.event.pull_request.labels.*.name, 'bump-ios-sdk')
     runs-on: macOS-latest
     steps:
+    - name: Checkout 
+      uses: actions/checkout@v4
+      
     - name: Auto-merge bump PRs
       run: |
         echo "➡️ Auto-merge allowed for this PR"
@@ -27,7 +30,8 @@ jobs:
       uses: actions/checkout@v4
       with:
         ref: main
-    
+        fetch-depth: 1
+  
     - name: Install Cocoapods
       run: gem install cocoapods
     
