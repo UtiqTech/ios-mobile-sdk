@@ -1,26 +1,42 @@
 name: deploy_to_cocoapods
 
+permissions:
+  contents: write
+  pull-requests: write
+  
 on:
-  release:
-    types: [published]
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
       
 jobs:
-  build:
+  release:
+    if: contains(github.event.pull_request.labels.*.name, 'bump-ios-sdk')
     runs-on: self-hosted
+    # runs-on: macOS-latest
     steps:
-    - uses: actions/checkout@v4
+    - name: Auto-merge bump PRs
+      run: |
+        echo "➡️ Auto-merge allowed for this PR"
+        gh pr merge ${{ github.event.pull_request.number }} \
+          --squash --delete-branch
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+    - name: Checkout updated main after merge
+      uses: actions/checkout@v4
+      with:
+        ref: main
     
     - name: Install Cocoapods
       run: gem install cocoapods
     
-    - name: Lint Podspec
-      run: pod lib lint Utiq.podspec --allow-warnings --verbose
-        
     - name: Deploy to Cocoapods
       run: |
         set -eo pipefail
-          export LIB_VERSION=$(git describe --tags `git rev-list --tags --max-count=1`)
-          pod lib lint --allow-warnings --verbose
-          pod trunk push --allow-warnings --verbose
+        export LIB_VERSION=$(git describe --tags `git rev-list --tags --max-count=1`)
+        pod lib lint --allow-warnings --verbose
+        pod trunk push --allow-warnings --verbose
       env:
         COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPOD_TOKEN }}
