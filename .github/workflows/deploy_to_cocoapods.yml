@@ -20,11 +20,8 @@ jobs:
       
     - name: Auto-merge bump PRs
       run: |
-        echo "➡️ Auto-merge allowed for this PR"
-        gh pr merge ${{ github.event.pull_request.number }} \
-          --rebase \
-          --delete-branch \
-          --message "Bump iOS SDK version. Automated update of Utiq.podspec and Package.swift."
+        echo "➡️ Auto-merge allowed for PR #${{ github.event.pull_request.number }}"
+        gh pr merge ${{ github.event.pull_request.number }} --rebase --delete-branch
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
