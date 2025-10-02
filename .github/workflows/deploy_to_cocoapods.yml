@@ -29,16 +29,55 @@ jobs:
       uses: actions/checkout@v4
       with:
         ref: main
-        fetch-depth: 1
+        fetch-depth: 1      
+
+    - name: Export latest tag to Github environment variable
+      run: echo "LATEST_SDK_VERSION=$(git tag --sort=-creatordate | head -n 1)" >> $GITHUB_ENV
+      
+    - name: Download SDK zip from release
+      run: |
+        echo "📦 Downloading SDK release asset for version: ${{ env.LATEST_SDK_VERSION }}"
+        gh release download ${{ env.LATEST_SDK_VERSION }} \
+          --repo ${{ github.repository }} \
+          --pattern "Utiq-${{ env.LATEST_SDK_VERSION }}.zip" \
+          --dir .
+        echo "✅ Download complete, listing files in current directory:"
+        ls -lh .
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Unzip SDK
+      run: |
+        echo "📂 Unzipping SDK package: Utiq-${{ env.LATEST_SDK_VERSION }}.zip"
+        unzip -o Utiq-${{ env.LATEST_SDK_VERSION }}.zip -d .
+        echo "✅ Unzip complete. Listing extracted contents:"
+        ls -R .
+        echo "🔍 Checking if Utiq.xcframework exists:"
+        if [ -d "Utiq.xcframework" ]; then
+          echo "✅ Found Utiq.xcframework"
+        else
+          echo "❌ ERROR: Utiq.xcframework not found!"
+          exit 1
+        fi
   
     - name: Install Cocoapods
-      run: gem install cocoapods
+      run: |
+        echo "📦 Installing CocoaPods..."
+        gem install cocoapods
+        echo "✅ CocoaPods installed: $(pod --version)"
+
+    - name: Show Podspec contents
+      run: |
+        echo "🔎 Podspec being used:"
+        cat Utiq.podspec
     
     - name: Deploy to Cocoapods
       run: |
+        echo "🚀 Starting CocoaPods lint & push for version: ${{ env.LATEST_SDK_VERSION }}"
         set -eo pipefail
-        export LIB_VERSION=$(git describe --tags `git rev-list --tags --max-count=1`)
-        pod lib lint --allow-warnings --verbose
+        pod lib lint --allow-warnings --verbose --no-clean
+        echo "✅ Lint completed successfully"
         pod trunk push --allow-warnings --verbose
+        echo "🎉 Successfully pushed Utiq SDK v${{ env.LATEST_SDK_VERSION }} to CocoaPods trunk"
       env:
         COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPOD_TOKEN }}
