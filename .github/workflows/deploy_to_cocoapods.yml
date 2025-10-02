@@ -28,7 +28,7 @@ jobs:
     - name: Sync main & tags
       run: |
         echo "🔄 Syncing main branch & tags..."
-        git fetch origin main --tags
+        git fetch origin main
         git checkout main
         git pull origin main
         echo "✅ Synced with origin/main"
