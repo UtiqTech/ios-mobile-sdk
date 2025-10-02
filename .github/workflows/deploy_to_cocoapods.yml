@@ -31,7 +31,7 @@ jobs:
         ref: main
         fetch-depth: 1      
 
-    - name: Export latest tag to Github environment variable
+    - name: Export latest tag to Github environment variables
       run: echo "LATEST_SDK_VERSION=$(git tag --sort=-creatordate | head -n 1)" >> $GITHUB_ENV
       
     - name: Download SDK zip from release
@@ -78,6 +78,6 @@ jobs:
         pod lib lint --allow-warnings --verbose --no-clean
         echo "✅ Lint completed successfully"
         pod trunk push --allow-warnings --verbose
-        echo "🎉 Successfully pushed Utiq SDK v${{ env.LATEST_SDK_VERSION }} to CocoaPods trunk"
+        echo "🎉 Successfully pushed Utiq SDK v${{ env.LATEST_SDK_VERSION }} to CocoaPods trunk."
       env:
         COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPOD_TOKEN }}
