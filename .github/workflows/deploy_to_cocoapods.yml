@@ -80,9 +80,14 @@ jobs:
 
     - name: Show Podspec contents
       run: |
-        echo "🔎 Podspec being used:"
+        echo "🔎 Podspec contents:"
         cat Utiq.podspec
-    
+
+    - name: Show Package.swift contents
+      run: |
+        echo "🔎 Package.swift contents:"
+        cat Package.swift
+
     - name: Validate Podspec (lint only)
       run: |
         echo "🧪 Validating Utiq.podspec before push..."
