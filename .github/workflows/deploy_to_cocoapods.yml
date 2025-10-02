@@ -25,7 +25,7 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
-    - name: Sync main & tags
+    - name: Sync main
       run: |
         echo "🔄 Syncing main branch & tags..."
         git fetch origin main
@@ -35,7 +35,7 @@ jobs:
 
     - name: Export latest tag to Github environment variables
       run: |
-        LATEST_SDK_VERSION=$(git tag --sort=-creatordate | head -n 1)
+        LATEST_SDK_VERSION=$(git tag --sort=-v:refname | head -n 1)
         echo "LATEST_SDK_VERSION=$LATEST_SDK_VERSION" >> $GITHUB_ENV
         echo "➡️ Latest tag is: $LATEST_SDK_VERSION"
 
