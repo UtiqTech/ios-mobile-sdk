@@ -25,14 +25,26 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
-    - name: Checkout updated main after merge
-      uses: actions/checkout@v4
-      with:
-        ref: main
-        fetch-depth: 1      
+    - name: Sync main & tags
+      run: |
+        echo "🔄 Syncing main branch & tags..."
+        git fetch origin main --tags
+        git checkout main
+        git pull origin main
+        echo "✅ Synced with origin/main"
 
     - name: Export latest tag to Github environment variables
-      run: echo "LATEST_SDK_VERSION=$(git tag --sort=-creatordate | head -n 1)" >> $GITHUB_ENV
+      run: |
+        LATEST_SDK_VERSION=$(git tag --sort=-creatordate | head -n 1)
+        echo "LATEST_SDK_VERSION=$LATEST_SDK_VERSION" >> $GITHUB_ENV
+        echo "➡️ Latest tag is: $LATEST_SDK_VERSION"
+
+    - name: Force update latest tag to include Package.swift
+      run: |
+        echo "🔍 Preparing to re-tag ${{ env.LATEST_SDK_VERSION }} on latest commit"
+        git tag -f ${{ env.LATEST_SDK_VERSION }}
+        git push origin -f refs/tags/${{ env.LATEST_SDK_VERSION }}
+        echo "✅ Tag ${{ env.LATEST_SDK_VERSION }} successfully updated."
       
     - name: Download SDK zip from release
       run: |
@@ -71,12 +83,15 @@ jobs:
         echo "🔎 Podspec being used:"
         cat Utiq.podspec
     
+    - name: Validate Podspec (lint only)
+      run: |
+        echo "🧪 Validating Utiq.podspec before push..."
+        pod lib lint --allow-warnings --verbose
+        echo "✅ Podspec validation passed."
+
     - name: Deploy to Cocoapods
       run: |
-        echo "🚀 Starting CocoaPods lint & push for version: ${{ env.LATEST_SDK_VERSION }}"
-        set -eo pipefail
-        pod lib lint --allow-warnings --verbose --no-clean
-        echo "✅ Lint completed successfully"
+        echo "🚀 Pushing Utiq SDK v${{ env.LATEST_SDK_VERSION }} to CocoaPods trunk..."
         pod trunk push --allow-warnings --verbose
         echo "🎉 Successfully pushed Utiq SDK v${{ env.LATEST_SDK_VERSION }} to CocoaPods trunk."
       env:
