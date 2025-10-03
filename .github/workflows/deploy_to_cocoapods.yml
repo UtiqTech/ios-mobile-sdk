@@ -17,7 +17,10 @@ jobs:
     steps:
     - name: Checkout 
       uses: actions/checkout@v4
-      
+      with:
+        fetch-depth: 0      
+        fetch-tags: true
+        
     - name: Auto-merge bump PRs
       run: |
         echo "➡️ Auto-merge allowed for PR #${{ github.event.pull_request.number }}"
@@ -25,17 +28,17 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
-    - name: Sync main
+    - name: Sync main after PR merge
       run: |
-        echo "🔄 Syncing main branch & tags..."
+        echo "🔄 Syncing local main with origin/main..."
         git fetch origin main
         git checkout main
-        git pull origin main
-        echo "✅ Synced with origin/main"
+        git reset --hard origin/main
+        echo "✅ Local main is now aligned with merged PR"
 
     - name: Export latest tag to Github environment variables
       run: |
-        LATEST_SDK_VERSION=$(git tag --sort=-v:refname | head -n 1)
+        LATEST_SDK_VERSION=$(git describe --tags $(git rev-list --tags --max-count=1))
         echo "LATEST_SDK_VERSION=$LATEST_SDK_VERSION" >> $GITHUB_ENV
         echo "➡️ Latest tag is: $LATEST_SDK_VERSION"
 
