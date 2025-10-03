@@ -13,7 +13,7 @@ on:
 jobs:
   release:
     if: contains(github.event.pull_request.labels.*.name, 'bump-ios-sdk')
-    runs-on: self-hosted
+    runs-on: macOS-latest
     steps:
     - name: Checkout 
       uses: actions/checkout@v4
@@ -51,7 +51,7 @@ jobs:
       
     - name: Download SDK zip from release
       run: |
-        echo "📦 Downloading SDK release asset for version: ${{ env.LATEST_SDK_VERSION }}"
+        echo "📦 Downloading SDK release assets for version: ${{ env.LATEST_SDK_VERSION }}"
         gh release download ${{ env.LATEST_SDK_VERSION }} \
           --repo ${{ github.repository }} \
           --pattern "Utiq-${{ env.LATEST_SDK_VERSION }}.zip" \
