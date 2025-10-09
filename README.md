@@ -3,21 +3,32 @@
 </h1>
 
 <p align="center">
+  <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FutiqTech%2Fios-sdk%2Fbadge%3Ftype%3Dswift-versions" />
+
+  <a href="https://swiftpackageindex.com/UtiqTech/ios-sdk">
+    <img src="https://img.shields.io/badge/Swift%20Package%20Manager-compatible-00C853?style=flat&logo=swift&logoColor=white" alt="Swift Package Manager Compatible" />
+  </a>
+
   <a href="https://cocoapods.org/pods/UTIQ">
-    <img src="https://img.shields.io/cocoapods/p/UTIQ.svg?style=flat" alt="Platform" />
+    <img src="https://img.shields.io/cocoapods/v/UTIQ.svg?style=flat&color=blue&logo=cocoapods&logoColor=white" alt="CocoaPods Version" />
   </a>
-  <a href="https://cocoapods.org/pods/UTIQ">
-    <img src="https://img.shields.io/badge/Swift-6.2-F16D39.svg?style=flat" alt="Swift Version" />
+
+  <img src="https://img.shields.io/badge/platforms-iOS%2012.0-333333?style=flat&logo=apple&logoColor=white" alt="Platform" />
+
+  <a href="https://github.com/UtiqTech/ios-sdk/blob/main/LICENSE">
+    <img src="https://img.shields.io/badge/license-Commercial%20Utiq%20SA%2FNV-lightgray.svg?style=flat&logoColor=white" alt="License" />
   </a>
-  <a href="https://raw.githubusercontent.com/UtiqTech/ios-sdk/main/LICENSE">
-    <img src="https://img.shields.io/cocoapods/l/UTIQ.svg?style=flat" alt="License" />
+
+  <a href="https://docs.utiq.com/docs/ios-sdk">
+    <img src="https://img.shields.io/badge/docs-Utiq%20iOS%20SDK-A63248?style=flat&logoColor=white&labelColor=555555" alt="Documentation" />
   </a>
-  <a href="https://docs.utiq.com/docs/ios-sdk#iOSSDK-CocoaPods">
-    <img src="https://img.shields.io/cocoapods/v/UTIQ.svg?style=flat-square&color=blue" alt="CocoaPods Version" />
-  </a>
-  <a href="https://docs.utiq.com/docs/ios-sdk#iOSSDK-SwiftPackageManager(SPM)">
-    <img src="https://img.shields.io/cocoapods/v/UTIQ.svg?style=flat-square&color=brightgreen&label=Swift%20Package%20Manager" alt="Swift Package Manager" />
-  </a>
+</p>
+<br/>
+<p align="center">
+  Built and maintained by  
+  <img src="https://docs.utiq.com/__assets-723b621d-4ff2-4a7c-8f18-4e9da2eb3549/image/logo.png" 
+       alt="Utiq Logo" height="18" 
+       style="vertical-align: middle; margin-left: 4px; margin-bottom: 4px" /> 
 </p>
 
 ---
@@ -37,12 +48,12 @@ It minimizes setup overhead, enabling faster, more reliable implementation and c
 ---
 
 ## ⚙️ Installation & Integration
-For installation and integration details, please refer to the official  [documentation](https://docs.utiq.com/docs/ios-sdk).
+For installation and integration details, please refer to the official 📘 [documentation](https://docs.utiq.com/docs/ios-sdk).
 
 ---
 
 ## 🛠️ Support & Bug Reporting
-If you encounter an issue, have a suggestion, or need assistance, please contact our support team @ 📩 [support@utiq.com](mailto:support@utiq.com "Email us")
+If you encounter an issue, have a suggestion, or need assistance, please reach out to our support team: 📩 [support@utiq.com](mailto:support@utiq.com "Email us")
 
 ---
 
